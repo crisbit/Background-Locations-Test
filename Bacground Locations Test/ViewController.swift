@@ -10,7 +10,7 @@ import UIKit
 import MapKit
 import CoreLocation
 
-class ViewController: UIViewController, CLLocationManagerDelegate {
+class ViewController: UIViewController, CLLocationManagerDelegate, MKMapViewDelegate {
 
     @IBOutlet weak var map: MKMapView!
     @IBOutlet weak var locationsLabel: UILabel!
@@ -24,6 +24,8 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        map.delegate = self
         
         // Load locations
         let locations = Memory.load()
@@ -52,12 +54,32 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
         }
         
         Memory.append(locations: newLocations)
+        
+        updatePolyLine()
+    }
+    
+    func mapView(_ mapView: MKMapView, rendererFor overlay: MKOverlay) -> MKOverlayRenderer {
+        let polylineRenderer = MKPolylineRenderer(overlay: overlay)
+        polylineRenderer.strokeColor = UIColor.blue
+        polylineRenderer.lineWidth = 1.5
+        return polylineRenderer
     }
     
     func zoomInOnLocation(location: CLLocation) {
         let location = CLLocationCoordinate2DMake(location.coordinate.latitude, location.coordinate.longitude)
         let region = MKCoordinateRegionMake(location, MKCoordinateSpanMake(0.005, 0.005))
         map.setRegion(region, animated: true)
+    }
+    
+    func updatePolyLine() {
+        map.removeOverlays(map.overlays)
+        var points = [CLLocationCoordinate2D]()
+        for location in Memory.load() {
+            let point = CLLocationCoordinate2D(latitude: location.latitude, longitude: location.longitude)
+            points.append(point)
+        }
+        let polyline = MKPolyline(coordinates: points, count: points.count)
+        map.add(polyline)
     }
     
     func updateLocationsLabel() {
@@ -67,6 +89,7 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
     @IBAction func resetButtonTapped() {
         locationsReceived = 0
         map.removeAnnotations(map.annotations)
+        updatePolyLine()
         Memory.reset()
     }
     
