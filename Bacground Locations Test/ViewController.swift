@@ -89,7 +89,7 @@ class ViewController: UIViewController, CLLocationManagerDelegate, MKMapViewDele
     @IBAction func resetButtonTapped() {
         locationsReceived = 0
         map.removeAnnotations(map.annotations)
-        updatePolyLine()
+        map.removeOverlays(map.overlays)
         Memory.reset()
     }
     
