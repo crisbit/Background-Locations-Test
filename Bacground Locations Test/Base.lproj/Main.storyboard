@@ -26,10 +26,28 @@
                                 <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" hasAttributedTitle="YES" translatesAutoresizingMaskIntoConstraints="NO" id="rwm-Z4-Eq0">
+                                <state key="normal">
+                                    <attributedString key="attributedTitle">
+                                        <fragment content="Reset">
+                                            <attributes>
+                                                <color key="NSColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                                <font key="NSFont" metaFont="system" size="25"/>
+                                                <integer key="NSUnderline" value="1"/>
+                                            </attributes>
+                                        </fragment>
+                                    </attributedString>
+                                </state>
+                                <connections>
+                                    <action selector="resetButtonTapped" destination="BYZ-38-t0r" eventType="touchUpInside" id="RQj-5T-DkQ"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
                             <constraint firstItem="sv6-WJ-Eam" firstAttribute="top" secondItem="y3c-jy-aDJ" secondAttribute="bottom" constant="20" id="C52-MC-H2X"/>
+                            <constraint firstItem="rwm-Z4-Eq0" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="EQl-uC-L03"/>
+                            <constraint firstItem="rwm-Z4-Eq0" firstAttribute="top" secondItem="sv6-WJ-Eam" secondAttribute="bottom" constant="15" id="Fwr-nR-347"/>
                             <constraint firstItem="wfy-db-euE" firstAttribute="top" secondItem="oIy-hX-BL4" secondAttribute="bottom" id="LU3-Fm-gJq"/>
                             <constraint firstItem="sv6-WJ-Eam" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="WBw-9c-pke"/>
                             <constraint firstItem="oIy-hX-BL4" firstAttribute="top" secondItem="y3c-jy-aDJ" secondAttribute="bottom" id="kA0-JK-0n9"/>

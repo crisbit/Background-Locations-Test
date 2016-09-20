@@ -16,7 +16,11 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
     @IBOutlet weak var locationsLabel: UILabel!
     
     let locationManager = CLLocationManager()
-    var locationsReceived: Int = 0
+    var locationsReceived: Int = 0 {
+        didSet {
+            updateLocationsLabel()
+        }
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -34,7 +38,6 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
     
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         locationsReceived += locations.count
-        locationsLabel.text = "Locations received\n\(locationsReceived)"
         
         let newLocations = locations.map { ccLocation in
             return Location.init(fromCLLocation: ccLocation)
@@ -46,7 +49,17 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
         
         Memory.append(locations: newLocations)
     }
+    
+    func updateLocationsLabel() {
+        locationsLabel.text = "Locations received\n\(locationsReceived)"
+    }
 
+    @IBAction func resetButtonTapped() {
+        locationsReceived = 0
+        map.removeAnnotations(map.annotations)
+        Memory.reset()
+    }
+    
 }
 
 struct Location {
