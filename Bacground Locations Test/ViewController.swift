@@ -16,11 +16,7 @@ class ViewController: UIViewController, CLLocationManagerDelegate, MKMapViewDele
     @IBOutlet weak var locationsLabel: UILabel!
     
     let locationManager = CLLocationManager()
-    var locationsReceived: Int = 0 {
-        didSet {
-            updateLocationsLabel()
-        }
-    }
+    var locationsReceived: [Location] = [Location]()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -34,27 +30,24 @@ class ViewController: UIViewController, CLLocationManagerDelegate, MKMapViewDele
         }
         
         locationManager.delegate = self
-        locationManager.startUpdatingLocation()
+        locationManager.desiredAccuracy = kCLLocationAccuracyBest
         locationManager.requestAlwaysAuthorization()
+        locationManager.startUpdatingLocation()
     }
     
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
-        if locationsReceived == 0 {
-            zoomInOnLocation(location: locations[0])
+        let cLLocation = locations.last!
+        
+        if locationsReceived.count == 0 {
+            zoomInOnLocation(location: cLLocation)
         }
         
-        locationsReceived += locations.count
+        let location = Location.init(from: cLLocation)
+        locationsReceived.append(location)
+        Memory.append(location)
         
-        let newLocations = locations.map { ccLocation in
-            return Location.init(from: ccLocation)
-        }
-        
-        for location in newLocations {
-            map.addAnnotation(location.makePointAnnotation())
-        }
-        
-        Memory.append(locations: newLocations)
-        
+        map.addAnnotation(location.makePointAnnotation())
+        updateLocationsLabel()
         updatePolyLine()
     }
     
@@ -68,7 +61,7 @@ class ViewController: UIViewController, CLLocationManagerDelegate, MKMapViewDele
     func zoomInOnLocation(location: CLLocation) {
         let location = CLLocationCoordinate2DMake(location.coordinate.latitude, location.coordinate.longitude)
         let region = MKCoordinateRegionMake(location, MKCoordinateSpanMake(0.005, 0.005))
-        map.setRegion(region, animated: true)
+        map.setRegion(region, animated: false)
     }
     
     func updatePolyLine() {
@@ -83,11 +76,12 @@ class ViewController: UIViewController, CLLocationManagerDelegate, MKMapViewDele
     }
     
     func updateLocationsLabel() {
-        locationsLabel.text = "Locations received\n\(locationsReceived)"
+        locationsLabel.text = "Locations received\n\(locationsReceived.count)"
     }
 
     @IBAction func resetButtonTapped() {
-        locationsReceived = 0
+        locationsReceived.removeAll()
+        updateLocationsLabel()
         map.removeAnnotations(map.annotations)
         map.removeOverlays(map.overlays)
         Memory.reset()

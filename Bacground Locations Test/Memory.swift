@@ -32,9 +32,9 @@ class Memory {
         defaults.set(dictLocations, forKey: "locations")
     }
     
-    static func append(locations newLocations: [Location]) {
+    static func append(_ location: Location) {
         var locations = self.load()
-        locations += newLocations
+        locations.append(location)
         self.save(locations: locations)
     }
     
