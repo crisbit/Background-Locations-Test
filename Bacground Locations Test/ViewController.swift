@@ -37,10 +37,14 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
     }
     
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
+        if locationsReceived == 0 {
+            zoomInOnLocation(location: locations[0])
+        }
+        
         locationsReceived += locations.count
         
         let newLocations = locations.map { ccLocation in
-            return Location.init(fromCLLocation: ccLocation)
+            return Location.init(from: ccLocation)
         }
         
         for location in newLocations {
@@ -48,6 +52,12 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
         }
         
         Memory.append(locations: newLocations)
+    }
+    
+    func zoomInOnLocation(location: CLLocation) {
+        let location = CLLocationCoordinate2DMake(location.coordinate.latitude, location.coordinate.longitude)
+        let region = MKCoordinateRegionMake(location, MKCoordinateSpanMake(0.005, 0.005))
+        map.setRegion(region, animated: true)
     }
     
     func updateLocationsLabel() {

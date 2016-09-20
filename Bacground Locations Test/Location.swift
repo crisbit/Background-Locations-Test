@@ -15,13 +15,13 @@ struct Location {
     var latitude: Double
     var title: String
     
-    init(fromCLLocation location: CLLocation) {
+    init(from location: CLLocation) {
         longitude = location.coordinate.longitude
         latitude = location.coordinate.latitude
         title = "\(location.timestamp)"
     }
     
-    init(fromDictionary dict: [String: Any]) {
+    init(from dict: [String: Any]) {
         longitude = dict["longitude"] as! Double
         latitude = dict["latitude"] as! Double
         title = dict["title"] as! String

@@ -19,7 +19,7 @@ class Memory {
         
         var locations = [Location]()
         for dictLocation in dictionaryLocations as! [[String: Any]] {
-            locations.append(Location(fromDictionary: dictLocation))
+            locations.append(Location(from: dictLocation))
         }
         return locations
     }
