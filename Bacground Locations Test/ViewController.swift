@@ -16,7 +16,6 @@ class ViewController: UIViewController, CLLocationManagerDelegate, MKMapViewDele
     @IBOutlet weak var map: MKMapView!
     @IBOutlet weak var locationsLabel: UILabel!
     
-    let locationManager = CLLocationManager()
     var locationsReceived: [Location] = [Location]()
     
     override func viewDidLoad() {
@@ -30,11 +29,7 @@ class ViewController: UIViewController, CLLocationManagerDelegate, MKMapViewDele
             map.addAnnotation(location.makePointAnnotation())
         }
         
-        locationManager.delegate = self
-        locationManager.allowsBackgroundLocationUpdates = true
-        locationManager.desiredAccuracy = kCLLocationAccuracyBest
-        locationManager.requestAlwaysAuthorization()
-        locationManager.startUpdatingLocation()
+        AppDelegate.locationManager.delegate = self
     }
     
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
