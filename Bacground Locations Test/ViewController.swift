@@ -9,6 +9,7 @@
 import UIKit
 import MapKit
 import CoreLocation
+import UserNotifications
 
 class ViewController: UIViewController, CLLocationManagerDelegate, MKMapViewDelegate {
 
@@ -41,6 +42,25 @@ class ViewController: UIViewController, CLLocationManagerDelegate, MKMapViewDele
         
         if UIApplication.shared.applicationState == .background {
             print("SONO IN BACKGROUND e ho ricevuto la posizione: \(cLLocation)")
+            
+            let center = UNUserNotificationCenter.current()
+            center.requestAuthorization(options: [.alert, .sound]) { (granted, error) in
+                if granted && self.locationsReceived.count > 0 && self.locationsReceived.count % 10 == 0 {
+                    let content = UNMutableNotificationContent()
+                    content.title = "Locations received"
+                    content.body = "\(self.locationsReceived.count) locations received"
+                    content.sound = UNNotificationSound.default()
+                    
+                    // create a 10-second delay for our alert
+                    let trigger = UNTimeIntervalNotificationTrigger(timeInterval: 1, repeats: false)
+                    
+                    // the identifier lets you cancel the alert later if needed
+                    let request = UNNotificationRequest(identifier: "LocationsReceived", content: content, trigger: trigger)
+                    
+                    // schedule the alert to run
+                    center.add(request)
+                }
+            }
         }
         
         if locationsReceived.count == 0 {
