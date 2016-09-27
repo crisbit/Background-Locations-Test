@@ -52,11 +52,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     private static func updateLocationManager() {
         AppDelegate.locationManager.allowsBackgroundLocationUpdates = true
-        AppDelegate.locationManager.stopMonitoringSignificantLocationChanges()
-        AppDelegate.locationManager.desiredAccuracy = kCLLocationAccuracyBest
-        AppDelegate.locationManager.distanceFilter = kCLDistanceFilterNone
-        AppDelegate.locationManager.pausesLocationUpdatesAutomatically = false
-        AppDelegate.locationManager.activityType = CLActivityType.automotiveNavigation
         AppDelegate.locationManager.startMonitoringSignificantLocationChanges()
     }
 
