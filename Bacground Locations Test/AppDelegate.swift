@@ -19,6 +19,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
+        print("MI STO APRENDO...")
+        UNUserNotificationCenter.alert(title: "Opening", body: "The applications is being opened.")
         AppDelegate.updateLocationManager()
         return true
     }
@@ -50,12 +52,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     private static func updateLocationManager() {
         AppDelegate.locationManager.allowsBackgroundLocationUpdates = true
-        AppDelegate.locationManager.stopUpdatingLocation()
-        AppDelegate.locationManager.desiredAccuracy = kCLLocationAccuracyKilometer
+        AppDelegate.locationManager.stopMonitoringSignificantLocationChanges()
+        AppDelegate.locationManager.desiredAccuracy = kCLLocationAccuracyBest
         AppDelegate.locationManager.distanceFilter = kCLDistanceFilterNone
         AppDelegate.locationManager.pausesLocationUpdatesAutomatically = false
         AppDelegate.locationManager.activityType = CLActivityType.automotiveNavigation
-        AppDelegate.locationManager.startUpdatingLocation()
+        AppDelegate.locationManager.startMonitoringSignificantLocationChanges()
     }
 
 }
