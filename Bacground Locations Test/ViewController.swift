@@ -36,8 +36,8 @@ class ViewController: UIViewController, CLLocationManagerDelegate, MKMapViewDele
         let cLLocation = locations.last!
         
         if UIApplication.shared.applicationState == .background {
-            print("SONO IN BACKGROUND e ho ricevuto la posizione: \(cLLocation)")
-            if self.locationsReceived.count > 0 && self.locationsReceived.count % 10 == 0 {
+            print("SONO IN BACKGROUND e ho ricevuto la posizione \(self.locationsReceived.count): \(cLLocation)")
+            if self.locationsReceived.count > 0 {
                 UNUserNotificationCenter.alert(title: "Locations received", body: "\(self.locationsReceived.count)")
             }
         }
