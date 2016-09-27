@@ -30,6 +30,7 @@ class ViewController: UIViewController, CLLocationManagerDelegate, MKMapViewDele
         }
         
         locationManager.delegate = self
+        locationManager.allowsBackgroundLocationUpdates = true
         locationManager.desiredAccuracy = kCLLocationAccuracyBest
         locationManager.requestAlwaysAuthorization()
         locationManager.startUpdatingLocation()
@@ -37,6 +38,10 @@ class ViewController: UIViewController, CLLocationManagerDelegate, MKMapViewDele
     
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         let cLLocation = locations.last!
+        
+        if UIApplication.shared.applicationState == .background {
+            print("SONO IN BACKGROUND e ho ricevuto la posizione: \(cLLocation)")
+        }
         
         if locationsReceived.count == 0 {
             zoomInOnLocation(location: cLLocation)
